@@ -1,0 +1,13 @@
+﻿Organization:   #{WhoisRecord.RegistrarName}
+OrgName:        #{WhoisRecord.Registrant.Organization}
+Address:        #{WhoisRecord.Registrant.Street}
+City:           #{WhoisRecord.Registrant.City}
+StateProv:      #{WhoisRecord.Registrant.State}
+PostalCode:     #{WhoisRecord.Registrant.PostalCode}
+Country:        #{WhoisRecord.Registrant.Country}
+OrgTechName:   #{WhoisRecord.TechnicalContact.Name}
+OrgTechPhone:  #{WhoisRecord.TechnicalContact.PhoneNumber} 
+OrgTechEmail:  #{WhoisRecord.TechnicalContact.Email}
+OrgAbusePhone:  #{WhoisRecord.AbusePhoneNumber}
+OrgAbuseEmail:  #{WhoisRecord.AbuseEmail}
+[Registrant]

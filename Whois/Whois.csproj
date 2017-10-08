@@ -56,6 +56,8 @@
     <Compile Include="EmbeddedPatternReader.cs" />
     <Compile Include="Extensions\ArrayListExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Visitors\NameToOrgVisitor.cs" />
+    <Compile Include="Visitors\VisitorBase.cs" />
     <Compile Include="WhoisRecord.cs" />
     <Compile Include="Net\ITcpReader.cs" />
     <Compile Include="Net\ITcpReaderFactory.cs" />
@@ -82,6 +84,11 @@
     <EmbeddedResource Include="Patterns\Domains\Csc.txt" />
     <EmbeddedResource Include="Patterns\Servers\Iana.txt" />
     <EmbeddedResource Include="Patterns\Redirects\Iana.txt" />
+    <EmbeddedResource Include="Patterns\Domains\Arin.txt" />
+    <EmbeddedResource Include="Patterns\Domains\Ripe.txt" />
+    <EmbeddedResource Include="Patterns\Domains\Jprs.txt" />
+    <EmbeddedResource Include="Patterns\Domains\Afnic.txt" />
+    <EmbeddedResource Include="Patterns\Domains\Denic.txt" />
     <Content Include="Readme.txt" />
   </ItemGroup>
   <ItemGroup />

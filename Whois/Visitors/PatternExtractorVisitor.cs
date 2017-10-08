@@ -78,7 +78,7 @@ namespace Whois.Visitors
                 results.Add(result);
             }
 
-            return results.OrderBy(r => r.Replacements.Count).ToList();
+            return results.OrderByDescending(r => r.Replacements.Count).ToList();
         }
     }
 }

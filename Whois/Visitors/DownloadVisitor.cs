@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
+using Tokens;
 using Whois.Net;
 
 namespace Whois.Visitors
@@ -7,15 +9,8 @@ namespace Whois.Visitors
     /// <summary>
     /// Downloads WHOIS information from the specified WHOIS server
     /// </summary>
-    public class DownloadVisitor : IWhoisVisitor
+    public class DownloadVisitor : VisitorBase
     {
-        /// <summary>
-        /// Gets the current character encoding that the current WhoisVisitor
-        /// object is using.
-        /// </summary>
-        /// <returns>The current character encoding used by the current visitor.</returns>
-        public Encoding Encoding { get; private set; }
-
         /// <summary>
         /// Gets or sets the TCP reader factory.
         /// </summary>
@@ -25,19 +20,9 @@ namespace Whois.Visitors
         /// <summary>
         /// Initializes a new instance of the <see cref="DownloadVisitor"/> class.
         /// </summary>
-        public DownloadVisitor() : this(Encoding.UTF8)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DownloadVisitor"/> class.
-        /// </summary>
-        /// <param name="encoding">The encoding used to read and write strings.</param>
-        public DownloadVisitor(Encoding encoding)
+        public DownloadVisitor()
         {
             TcpReaderFactory = new TcpReaderFactory();
-
-            Encoding = encoding;
         }
 
         /// <summary>
@@ -45,19 +30,52 @@ namespace Whois.Visitors
         /// </summary>
         /// <param name="record">The record.</param>
         /// <returns></returns>
-        public WhoisRecord Visit(WhoisRecord record)
+        public override WhoisRecord Visit(WhoisRecord record)
         {
             if (record.Server == null)
             {
                 throw new ArgumentException("Given WhoisRecord does not have the Server property set");
             }
 
+            string url;
+            do
+            {
+                url = record.Server.Url;
+                if (url == null)
+                    return record;
+                Download(record);
+                CheckForEnglishVersion(record);
+                CheckForNewWhoIsServer(record);
+            } while (url != record.Server.Url);
+            
+            return record;
+        }
+
+        private void Download(WhoisRecord record, string domainSuffix = null)
+        {
             using (var tcpReader = TcpReaderFactory.Create(Encoding))
             {
-                record.Text = tcpReader.Read(record.Server.Url, 43, record.Domain);
+                record.Text = tcpReader.Read(record.Server.Url, 43, record.Domain + domainSuffix);
             }
+        }
 
-            return record;
+        private void CheckForEnglishVersion(WhoisRecord record)
+        {
+            if (record.Text.Contains("add'/e'") && !record.Server.Url.EndsWith("/e"))
+            {
+                Download(record, "/e");
+            }
+        }
+
+        private void CheckForNewWhoIsServer(WhoisRecord record)
+        {
+            var lines = record.Text.ToLines().Select(l => l.Trim());
+            var line = lines.FirstOrDefault(l => l.StartsWith("Registrar WHOIS Server:", StringComparison.OrdinalIgnoreCase));
+            if (line != null)
+            {
+                var url = line.Remove(0, "Registrar WHOIS Server:".Length).Trim();
+                record.Server.Url = url;
+            }
         }
     }
 }

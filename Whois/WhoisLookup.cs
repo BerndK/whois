@@ -40,10 +40,10 @@ namespace Whois
             Visitors = new List<IWhoisVisitor>
                 {
                     // Get initial WHOIS server URL
-                    new WhoisServerVisitor(encoding),
+                    new WhoisServerVisitor { Encoding = encoding },
 
                     // Download from initial server
-                    new DownloadVisitor(encoding),
+                    new DownloadVisitor { Encoding = encoding },
 
                     // Check to see if the results need to be expanded
                     new ExpandResultsVisitor(encoding),
@@ -52,7 +52,10 @@ namespace Whois
                     new RedirectVisitor(encoding),
 
                     // Populate Structured WHOIS object
-                    new PatternExtractorVisitor(encoding)
+                    new PatternExtractorVisitor(encoding),
+
+                    //set Name to org if empty
+                    new NameToOrgVisitor { Encoding = encoding },
                 };
         }
 

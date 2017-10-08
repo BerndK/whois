@@ -19,6 +19,6 @@
         /// <value>
         /// The URL.
         /// </value>
-        string Url { get; }
+        string Url { get; set; }
     }
 }

@@ -1,4 +1,7 @@
-﻿using Whois.Net;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using Whois.Net;
 using Tokens;
 
 namespace Whois.Servers
@@ -17,7 +20,7 @@ namespace Whois.Servers
         public ITcpReaderFactory TcpReaderFactory { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="InternicServerLookup"/> class.
+        /// Initializes a new instance of the <see cref="IanaServerLookup"/> class.
         /// </summary>
         public IanaServerLookup()
         {
@@ -66,9 +69,11 @@ namespace Whois.Servers
         /// <returns></returns>
         public IWhoisServer Lookup(string domain)
         {
-            var tld = GetTld(domain);
+            //var tld = GetTld(domain);
+            //var text = GetWhoisServerResponse(tld);
 
-            var text = GetWhoisServerResponse(tld);
+            //this will also handle IP addresses and the result is almost identical (just a additional refer, e.g. "refer:        whois.denic.de")
+            var text = GetWhoisServerResponse(domain);
 
             var tokenizer = new Tokenizer();
             tokenizer.Options.ThrowExceptionOnMissingProperty = true;
@@ -77,7 +82,25 @@ namespace Whois.Servers
 
             record.Value.RawResponse = text;
 
+            ParseServerUrlSecondChance(record, text);
+
             return record.Value;
+        }
+
+        private static void ParseServerUrlSecondChance(TokenResult<WhoisServerRecord> record, string text)
+        {
+            if (record.Value != null && record.Value.Url == null)
+            {
+                var lines = text.ToLines();
+                foreach (var line in lines)
+                {
+                    if (line.StartsWith("whois:", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var url = line.Remove(0, "whois:".Length).Trim();
+                        record.Value.Url = url;
+                    }
+                }
+            }
         }
 
         /// <summary>
