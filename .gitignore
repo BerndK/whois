@@ -30,6 +30,7 @@ _ReSharper*/
 Working
 Build/build.txt
 artifacts/
-packages
-!packages/repositories.config
+packages/*
+!packages/Tokenizer/
+!packages/Tokenizer/Tokenizer.pdb
 cache/
