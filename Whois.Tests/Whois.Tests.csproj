@@ -49,7 +49,7 @@
     </Reference>
     <Reference Include="Tokenizer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Tokenizer.1.0.1\lib\net45\Tokenizer.dll</HintPath>
+      <HintPath>..\packages\Tokenizer\Tokenizer.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -457,9 +457,6 @@
     <Content Include="Samples\Tlds\lacaixa.txt" />
     <Content Include="Samples\Tlds\land.txt" />
     <Content Include="Samples\Tlds\lawyer.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />

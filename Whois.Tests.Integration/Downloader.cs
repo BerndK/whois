@@ -87,7 +87,7 @@ namespace Whois
                 {
                     var match = matches.First();
 
-                    Console.WriteLine("{0} matches: {1}", match.Replacements.Count, Path.GetFileName(file));
+                    Console.WriteLine("{0} matches: {1}", match.Value.Replacements.Count, Path.GetFileName(file));
                 }
                 else
                 {

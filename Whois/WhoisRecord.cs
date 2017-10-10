@@ -92,6 +92,11 @@ namespace Whois
         public WhoisRedirect Redirect { get; set; }
 
         /// <summary>
+        /// Patternfile which was used to parse values
+        /// </summary>
+        public string PatternFile { get; set; }
+
+        /// <summary>
         /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
         /// </summary>
         /// <returns>

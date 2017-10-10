@@ -75,5 +75,26 @@ namespace Whois
 
             return results;
         }
+        public IList<EmbeddedResource> ReadNamespaceWithName(Assembly assembly, string @namespace)
+        {
+            var results = new List<EmbeddedResource>();
+
+            var names = GetResourceNames(assembly, @namespace);
+
+            foreach (var name in names)
+            {
+                var result = Read(assembly, name);
+
+                if (!string.IsNullOrEmpty(result)) results.Add(new EmbeddedResource { Name = name, Value = result });
+            }
+
+            return results;
+        }
+    }
+
+    public class EmbeddedResource
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
     }
 }

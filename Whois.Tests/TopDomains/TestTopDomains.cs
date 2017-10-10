@@ -25,13 +25,13 @@ namespace Whois.TopDomains
 
                 var matches = visitor.MatchPatterns(record);
 
-                if (matches[0].Replacements.Count == 0)
+                if (matches[0].Value.Replacements.Count == 0)
                 {
                     fails.Add(file);
                 }
                 else
                 {
-                    Console.WriteLine("{0} replacement(s) made in {1}", matches[0].Replacements.Count, file);
+                    Console.WriteLine("{0} replacement(s) made in {1}", matches[0].Value.Replacements.Count, file);
                 }
             }
 

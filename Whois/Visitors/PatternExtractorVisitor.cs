@@ -37,11 +37,11 @@ namespace Whois.Visitors
         /// Gets all the embdedded patterns in the assembly.
         /// </summary>
         /// <returns></returns>
-        public IList<string> GetEmbeddedPatterns()
+        public IList<EmbeddedResource> GetEmbeddedPatterns()
         {
             var reader = new EmbeddedPatternReader();
 
-            return reader.ReadNamespace(GetType().Assembly, "Whois.Patterns.Domains");
+            return reader.ReadNamespaceWithName(GetType().Assembly, "Whois.Patterns.Domains");
         } 
 
         /// <summary>
@@ -55,15 +55,16 @@ namespace Whois.Visitors
 
             if (results.Any())
             {
-                record = results.First().Value;
+                record = results.First().Value.Value;
+                record.PatternFile = results.First().Name;
             }
 
             return record;
         }
 
-        public IList<TokenResult<WhoisRecord>> MatchPatterns(WhoisRecord record)
+        public IList<TokenizerResult> MatchPatterns(WhoisRecord record)
         {
-            var results = new List<TokenResult<WhoisRecord>>();
+            var results = new List<TokenizerResult>();
 
             var patterns = GetEmbeddedPatterns();
 
@@ -73,12 +74,18 @@ namespace Whois.Visitors
 
                 var clone = record.Clone() as WhoisRecord;
 
-                var result = tokenizer.Parse(clone, pattern, record.Text);
+                var result = tokenizer.Parse(clone, pattern.Value, record.Text);
 
-                results.Add(result);
+                results.Add(new TokenizerResult {Name = pattern.Name, Value = result });
             }
 
-            return results.OrderByDescending(r => r.Replacements.Count).ToList();
+            return results.OrderByDescending(r => r.Value.Replacements.Count).ToList();
+        }
+
+        public class TokenizerResult
+        {
+            public string Name { get; set; }
+            public TokenResult<WhoisRecord> Value { get; set; }
         }
     }
 }

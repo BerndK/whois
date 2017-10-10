@@ -1,0 +1,4 @@
+﻿Domain name:
+#{WhoisRecord.Domain}
+Holder of domain name:
+#{WhoisRecord.Registrant.Organization}

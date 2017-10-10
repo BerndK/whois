@@ -40,11 +40,10 @@ namespace Whois
         [TestCase("telekom.de")]
         public void BkTests(string hostnameOrIp)
         {
-            //var result = lookup.Lookup(hostnameOrIp);
-            var result2 = new WhoisLookup().Lookup(hostnameOrIp);
-            Console.WriteLine($"{hostnameOrIp} : {result2.Registrant?.Organization}\r\n\r\n{result2.Text}");
+            var result = new WhoisLookup().Lookup(hostnameOrIp);
+            Console.WriteLine($"Host: {hostnameOrIp}\r\nOrg: {result.Registrant?.Organization}\r\nDomain: {result.Domain}\r\nPatternFile: {result.PatternFile}\r\n\r\n{result.Text}");
 
-            Assert.AreNotEqual(null, result2.Registrant?.Organization);
+            Assert.AreNotEqual(null, result.Registrant?.Organization);
         }
 
     }

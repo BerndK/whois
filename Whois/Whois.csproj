@@ -38,7 +38,7 @@
     <Reference Include="System.Core" />
     <Reference Include="Tokenizer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Tokenizer.1.0.1\lib\net40\Tokenizer.dll</HintPath>
+      <HintPath>..\packages\Tokenizer\Tokenizer.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -77,7 +77,6 @@
     <Compile Include="WhoisRedirect.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
     <None Include="Whois.nuspec" />
   </ItemGroup>
   <ItemGroup>
@@ -89,6 +88,7 @@
     <EmbeddedResource Include="Patterns\Domains\Jprs.txt" />
     <EmbeddedResource Include="Patterns\Domains\Afnic.txt" />
     <EmbeddedResource Include="Patterns\Domains\Denic.txt" />
+    <EmbeddedResource Include="Patterns\Domains\NicCh.txt" />
     <Content Include="Readme.txt" />
   </ItemGroup>
   <ItemGroup />
